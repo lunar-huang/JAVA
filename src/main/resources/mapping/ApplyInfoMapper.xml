@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ApplyInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ApplyInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="reqTime" property="reqTime" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="cardNo" property="cardNo" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insertApplyInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.demo.entity.ApplyInfo">
+        INSERT INTO ApplyInfo(userId, serialNo, reqTime, cardNo) VALUES(#{userId, jdbcType=INTEGER},#{serialNo, jdbcType=VARCHAR},
+                                                                         #{reqTime, jdbcType=VARCHAR},#{cardNo, jdbcType=VARCHAR})
+    </insert>
+    <update id="updateApplyInfo">
+        UPDATE ApplyInfo SET code = #{code, jdbcType=VARCHAR}, updateTime = #{updateTime, jdbcType=VARCHAR}
+        WHERE userId = #{userId, jdbcType=INTEGER} AND serialNo = #{serialNo}
+    </update>
+    <select id="getAllApplyInfo" resultType="com.example.demo.entity.ApplyInfo">
+        Select
+            *
+        from ApplyInfo
+    </select>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.User" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="VARCHAR" />
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="IDNo" property="IDNo" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="companyName" property="companyName" jdbcType="VARCHAR"/>
+        <result column="companyAddress" property="companyAddress" jdbcType="VARCHAR"/>
+        <result column="workingYears" property="workingYears" jdbcType="INTEGER"/>
+        <result column="homeAddress" property="homeAddress" jdbcType="VARCHAR"/>
+        <result column="education" property="education" jdbcType="VARCHAR"/>
+        <result column="maritalStatus" property="maritalStatus" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Basic_Column_List" >
+        id,name,IDNo,phone
+    </sql>
+    <insert id="insertUserBasicInfo" parameterType="com.example.demo.entity.User">
+        insert into User(id,name,IDNo,phone)
+        values(#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{IDNo,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR})
+    </insert>
+    <select id="getUserBasicInfoByIDNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Basic_Column_List" />
+        from User
+        where IDNo=#{IDNo,jdbcType=VARCHAR}
+    </select>
+    <update id="updateUserBasicInfoById" parameterType="com.example.demo.entity.User">
+        update User
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateUser" parameterType="com.example.demo.entity.User">
+        UPDATE User SET companyName = #{companyName}, job = #{job}, companyAddress = #{companyAddress},
+                        workingYears = #{workingYears}, homeAddress = #{homeAddress},
+                        education = #{education}, maritalStatus = #{maritalStatus}
+        WHERE IDNo = #{IDNo}
+    </update>
+    <select id="getAllUserInfoByID" parameterType="java.lang.String" resultType="com.example.demo.entity.User">
+        select
+            *
+        from User
+        where IDNo=#{IDNo,jdbcType=VARCHAR}
+    </select>
+    <select id="getAllUser" parameterType="java.lang.String" resultType="com.example.demo.entity.User">
+        select
+            *
+        from User
+    </select>
+    <select id="getAddedUser" parameterType="java.lang.Integer" resultType="com.example.demo.entity.User">
+        select
+            *
+        from User
+        Where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getUserNoApply" resultType="com.example.demo.entity.User">
+        select
+            *
+        from User
+        where job is NULL
+    </select>
+</mapper>
